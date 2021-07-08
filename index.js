@@ -16,9 +16,9 @@ app.use(bodyparser.json({limit: '30mb', extended: true}))
 app.use(bodyparser.urlencoded({limit: '30mb', extended: true}))
 app.use(cors())
 
-// app.get('/', (req, res) => {
-//     res.send('Pizzaria')
-// })
+app.get('/', (req, res) => {
+    res.send('Pizzaria')
+})
 
 app.use('/users', usersRoute)
 app.use('/menus', menusRoute)
