@@ -66,7 +66,7 @@ const getCharts = async (req, res) => {
             }
         })
 
-        const media = soma/pedidos
+        const media = (soma/pedidos).toFixed(2)
 
         const handle = {total: soma, finalizados: pedidos, ticket: media, users, faturaMensal, pedidosMensal}
 

@@ -24,8 +24,8 @@ const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(data.password, 12)
         const result = await Users.create({...data, password: hashedPassword, date: new Date()})
 
-        const token = jwt.sign({email: result.email}, 'hashed', {expiresIn: "24h"})
-
+        const token = jwt.sign({admin: result.admin}, 'hashed', {expiresIn: "24h"})
+        
         res.status(200).json({result: result, token})
     } catch (error) {
         res.status(400).json(error)
@@ -44,7 +44,7 @@ const signin = async (req, res) => {
 
         if(!isPasswordCorrect) return res.status(404).json({message: "Password incorrect!"})
 
-        const token = jwt.sign({email: userExists.email}, 'hashed', {expiresIn: '24h'})
+        const token = jwt.sign({admin: userExists.admin}, 'hashed', {expiresIn: '24h'})
 
         res.status(200).json({result: userExists, token})
     } catch (error) {
