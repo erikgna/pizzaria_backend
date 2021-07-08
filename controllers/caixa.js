@@ -1,6 +1,7 @@
 const Caixa = require('../models/caixa.js')
 const Users = require('../models/users.js')
 const moment = require('moment')
+const timezone = require('moment-timezone')
 
 const getCaixa = async (req, res) => {
     try {
@@ -16,10 +17,13 @@ const createCaixa = async (req, res) => {
     const number = parseInt(initial)
 
     try {
+        const data = moment().format()
+        var brazil = timezone.tz(data, "America/Sao_Paulo")
+
         const createdCaixa = await Caixa.create({
             initial: number,
             isOpen: true,
-            date: moment().format()
+            date: brazil.format()
         })
 
         res.status(200).json(createdCaixa)

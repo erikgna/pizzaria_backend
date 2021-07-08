@@ -1,6 +1,7 @@
 const Orders = require('../models/orders.js')
 const Frete = require('../models/frete.js')
 const moment = require('moment')
+const timezone = require('moment-timezone')
 
 const getOrders = async (req, res) => {
     try {
@@ -26,6 +27,9 @@ const createOrder = async (req, res) => {
         total = total + price
     })
     try {
+        const data = moment().format()
+        var brazil = timezone.tz(data, "America/Sao_Paulo")
+        
         const createdOrder = await Orders.create({
             client: user.name,
             phone: user.phone,
@@ -35,7 +39,7 @@ const createOrder = async (req, res) => {
             description: descriptions,
             price: total,
             prices: prices,
-            date: moment().format(),
+            date: brazil.format(),
             accept: false,
             ready: false,
             obs: comment,
