@@ -1,5 +1,6 @@
 const Menus = require('../models/menus.js')
 const Categorys = require('../models/categorys.js')
+const Bordas = require('../models/bordas.js')
 
 const getMenu = async (req, res) => {
     try {
@@ -83,7 +84,7 @@ const deleteCategory = async (req, res) => {
 
     try {
         const {_id} = await Categorys.findOne(name)
-        if(!_id) return res.status(404).send("No product with that id")
+        if(!_id) return res.status(404).send("No category with that id")
 
         const categorytDeleted = await Categorys.findByIdAndRemove(_id)
 
@@ -93,4 +94,37 @@ const deleteCategory = async (req, res) => {
     }
 }
 
-module.exports = { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory }
+const getBorda = async (req, res) => {
+    try {
+        const bordas = await Bordas.find()
+
+        res.status(200).json(bordas)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+const createBorda = async (req, res) => {
+    const data = req.body
+
+    try {
+        const createdBorda = await Bordas.create(data)
+        res.status(200).json(createdBorda)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const deleteBorda = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const bordaDeleted = await Bordas.findByIdAndRemove(id)
+
+        res.status(200).json(bordaDeleted)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+module.exports = { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda }
