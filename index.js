@@ -25,6 +25,9 @@ app.use('/menus', menusRoute)
 app.use('/orders', ordersRoute)
 app.use('/caixa', caixaRoute)
 
+app.use(express.static('public'));  
+app.use('/images', express.static('images')); 
+
 const PORT = process.env.PORT || 5000
 
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})

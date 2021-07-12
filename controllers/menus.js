@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const Menus = require('../models/menus.js')
 const Categorys = require('../models/categorys.js')
 const Bordas = require('../models/bordas.js')
@@ -13,14 +15,20 @@ const getMenu = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-    const data = req.body
+    const some = req.body
     const {name} = req.body
 
     try {
+        const img = some.image
+        var data = img.replace(/^data:image\/\w+;base64,/, "")
+        var buf = Buffer.from(data, 'base64')
+        var filename = Math.floor(Math.random() * (10000 - 0) + 0)
+        await fs.writeFileSync(`${__dirname}/../public/images/${filename}.jpeg`, buf)
+
         const productExists = await Menus.findOne({name})
         if(productExists) return res.status(400).json({message: "O produto já existe!"})
 
-        const createdProduct = await Menus.create({...data, date: new Date()})
+        const createdProduct = await Menus.create({...some, date: new Date(), image: `https://pizzariaback.herokuapp.com/images/${filename}.jpeg`})
 
         res.status(200).json(createdProduct)
     } catch (error) {
@@ -49,6 +57,9 @@ const deleteProduct = async (req, res) => {
     try {
         const productExists = await Menus.findById(id)
         if(!productExists) return res.status(404).send("No product with that id")
+
+        const filename = productExists.image.replace("https://pizzariaback.herokuapp.com/images/", "")
+        await fs.unlinkSync(`${__dirname}/../public/images/${filename}`)
 
         const productDeleted = await Menus.findByIdAndRemove(id)
 
