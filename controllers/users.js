@@ -21,6 +21,8 @@ const signup = async (req, res) => {
         const userExists = await Users.findOne({email})
         if(userExists) return res.status(400).json({message: "User already exists."})
 
+        if(data.email !== data.confirmEmail) return res.status(400).json({message: "User already exists."})
+
         const hashedPassword = await bcrypt.hash(data.password, 12)
         const result = await Users.create({...data, password: hashedPassword, date: new Date()})
 

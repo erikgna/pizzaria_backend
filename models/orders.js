@@ -7,14 +7,11 @@ const ordersSchema = mongoose.Schema({
     phone: {type: String, require: true},
     address: {type: String, require: true},
     email: {type: String, require: true},
-    titles: Array,
-    description: Array,
-    price: {type: Number, require: true},
-    recheio: String,
+    cart: Array,
     obs: String,
     entrega: String,
     metodo: String,
-    prices: Array,
+    frete: Number,
     date: String
 })
 

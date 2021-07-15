@@ -13,39 +13,26 @@ const getOrders = async (req, res) => {
 }
 
 const createOrder = async (req, res) => {
-    const {user, cart, extra, comment, entrega, metodo} = req.body
-    const fullAddress = `${user.address}, (${user.number}) - ${user.bairro} - ${user.complemento}`
-    
-    let titles = []
-    let descriptions = []
-    let prices = []
-    let total = 0
-    cart.forEach(({name, description, price}) => {
-        titles = [...titles, name]
-        descriptions = [...descriptions, description]
-        prices = [...prices, price]
-        total = total + price
-    })
+    const {user, cart, comment, entrega, metodo, frete} = req.body
+
     try {
+        const fullAddress = `${user.address}, (${user.number}) - ${user.bairro} - ${user.complemento}`
         const data = moment().format()
         var brazil = timezone.tz(data, "America/Sao_Paulo")
         
         const createdOrder = await Orders.create({
             client: user.name,
-            phone: user.phone,
+            phone: user.phone + " - " + user.phone2,
             address: fullAddress,
             email: user.email,
-            titles: titles,
-            description: descriptions,
-            price: total,
-            prices: prices,
+            cart: cart,
             date: brazil.format(),
             accept: false,
             ready: false,
             obs: comment,
             entrega: entrega,
             metodo: metodo,
-            recheio: extra
+            frete: frete
         })
         res.status(200).json(createdOrder)
     } catch (error) {

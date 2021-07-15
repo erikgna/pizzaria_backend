@@ -1,6 +1,7 @@
 const express = require('express')
 
-const { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda } = require('../controllers/menus.js')
+const { getMenu, createProduct, editProduct, deleteProduct, getCategorys,
+     createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores } = require('../controllers/menus.js')
 const adminAuth = require('../middlewares/adminAuth.js')
 const funcioAuth = require('../middlewares/funcioAuth.js')
 
@@ -19,6 +20,14 @@ router.patch('/update/:id', adminAuth, editProduct)
 
 router.delete('/delete/:id', adminAuth, deleteProduct)
 router.post('/delete/category', adminAuth, deleteCategory)
-router.delete('/borda/:id', funcioAuth, deleteBorda)
+router.delete('/borda/:id', adminAuth, deleteBorda)
+
+router.get('/tamanho', getTamanho)
+router.post('/tamanho', adminAuth, createTamanho)
+router.delete('/tamanho/:id', adminAuth, deleteTamanho)
+
+router.get('/sabor', getSabores)
+router.post('/sabor', adminAuth, createSabores)
+router.delete('/sabor/:id', adminAuth, deleteSabores)
 
 module.exports = router

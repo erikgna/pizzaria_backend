@@ -3,6 +3,8 @@ const fs = require('fs')
 const Menus = require('../models/menus.js')
 const Categorys = require('../models/categorys.js')
 const Bordas = require('../models/bordas.js')
+const Tamanhos = require('../models/tamanhos.js')
+const Sabores = require('../models/sabores.js')
 
 const getMenu = async (req, res) => {
     try {
@@ -138,4 +140,70 @@ const deleteBorda = async (req, res) => {
     }
 }
 
-module.exports = { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda }
+const getTamanho = async (req, res) => {
+    try {
+        const tamanhos = await Tamanhos.find()
+
+        res.status(200).json(tamanhos)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+const createTamanho = async (req, res) => {
+    const data = req.body
+
+    try {
+        const createdTamanho = await Tamanhos.create(data)
+        res.status(200).json(createdTamanho)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const deleteTamanho = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const tamanhoDeleted = await Tamanhos.findByIdAndRemove(id)
+
+        res.status(200).json(tamanhoDeleted)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const getSabores = async (req, res) => {
+    try {
+        const sabores = await Sabores.find()
+
+        res.status(200).json(sabores)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+const createSabores = async (req, res) => {
+    const data = req.body
+
+    try {
+        const createdSabores = await Sabores.create(data)
+        res.status(200).json(createdSabores)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const deleteSabores = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const saboresDeleted = await Sabores.findByIdAndRemove(id)
+
+        res.status(200).json(saboresDeleted)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+module.exports = { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores }
