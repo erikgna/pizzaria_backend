@@ -5,7 +5,7 @@ const funcioAuth = require('../middlewares/funcioAuth.js')
 
 const router = express.Router()
 
-router.get('/', funcioAuth, getHorarios)
+router.get('/', getHorarios)
 
 router.patch('/', funcioAuth, editHorarios)
 
