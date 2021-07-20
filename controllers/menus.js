@@ -5,6 +5,7 @@ const Categorys = require('../models/categorys.js')
 const Bordas = require('../models/bordas.js')
 const Tamanhos = require('../models/tamanhos.js')
 const Sabores = require('../models/sabores.js')
+const Extras = require('../models/extra.js')
 
 const getMenu = async (req, res) => {
     try {
@@ -185,7 +186,7 @@ const getSabores = async (req, res) => {
 
 const createSabores = async (req, res) => {
     const data = req.body
-
+    console.log(data)
     try {
         const createdSabores = await Sabores.create(data)
         res.status(200).json(createdSabores)
@@ -206,4 +207,38 @@ const deleteSabores = async (req, res) => {
     }
 }
 
-module.exports = { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores }
+const getExtra = async (req, res) => {
+    try {
+        const extras = await Extras.find()
+
+        res.status(200).json(extras)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+}
+
+const createExtra = async (req, res) => {
+    const data = req.body
+
+    try {
+        const createdExtra = await Extras.create(data)
+        res.status(200).json(createdExtra)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const deleteExtra = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const extraDeleted = await Extras.findByIdAndRemove(id)
+
+        res.status(200).json(extraDeleted)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+module.exports = {getExtra, createExtra, deleteExtra, getMenu,
+     createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores }

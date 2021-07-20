@@ -12,6 +12,9 @@ const ordersSchema = mongoose.Schema({
     entrega: String,
     metodo: String,
     frete: Number,
+    cartao: Object,
+    dinheiro: Number,
+    moto: String,
     date: String
 })
 

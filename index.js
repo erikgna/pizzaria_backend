@@ -10,6 +10,7 @@ const ordersRoute = require('./routes/orders.js')
 const caixaRoute = require('./routes/caixa.js')
 const horariosRoute = require('./routes/horarios.js')
 const localRoute = require('./routes/local.js')
+const motoboyRoute = require('./routes/motoboy.js')
 
 const app = express()
 dotenv.config()
@@ -28,6 +29,7 @@ app.use('/orders', ordersRoute)
 app.use('/caixa', caixaRoute)
 app.use('/horarios', horariosRoute)
 app.use('/local', localRoute)
+app.use('/motoboy', motoboyRoute)
 
 app.use(express.static('public'));  
 app.use('/images', express.static('images')); 

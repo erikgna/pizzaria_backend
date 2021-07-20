@@ -1,9 +1,8 @@
 const express = require('express')
 
-const { getMenu, createProduct, editProduct, deleteProduct, getCategorys,
-     createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores } = require('../controllers/menus.js')
+const { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores, getExtra, createExtra, deleteExtra } = require('../controllers/menus.js')
+const { getSubs, createSubs, deleteSubs } = require('../controllers/subs.js')
 const adminAuth = require('../middlewares/adminAuth.js')
-const funcioAuth = require('../middlewares/funcioAuth.js')
 
 const router = express.Router()
 
@@ -14,7 +13,7 @@ router.get('/category', getCategorys)
 router.post('/category', adminAuth, createCategory)
 
 router.get('/borda', getBorda)
-router.post('/borda', funcioAuth, createBorda)
+router.post('/borda', adminAuth, createBorda)
 
 router.patch('/update/:id', adminAuth, editProduct)
 
@@ -29,5 +28,13 @@ router.delete('/tamanho/:id', adminAuth, deleteTamanho)
 router.get('/sabor', getSabores)
 router.post('/sabor', adminAuth, createSabores)
 router.delete('/sabor/:id', adminAuth, deleteSabores)
+
+router.get('/sub', getSubs)
+router.post('/sub', adminAuth, createSubs)
+router.delete('/sub/:id', adminAuth, deleteSubs)
+
+router.get('/extra', getExtra)
+router.post('/extra', adminAuth, createExtra)
+router.delete('/extra/:id', adminAuth, deleteExtra)
 
 module.exports = router

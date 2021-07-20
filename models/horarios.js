@@ -14,8 +14,7 @@ const horariosSchema = mongoose.Schema({
     openSab: String,
     closeSab: String,
     openDom: String,
-    closeDom: String,
-    isOpen: Boolean
+    closeDom: String
 })
 
 module.exports = mongoose.model("Horarios", horariosSchema)

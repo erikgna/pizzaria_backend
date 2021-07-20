@@ -1,5 +1,4 @@
 const Caixa = require('../models/caixa.js')
-const Users = require('../models/users.js')
 const moment = require('moment')
 const timezone = require('moment-timezone')
 
@@ -52,7 +51,6 @@ const getCharts = async (req, res) => {
 
     try {
         const caixa = await Caixa.find()
-        const users = await (await Users.find()).length
         let soma = 0
         let pedidos = 0
         let faturaMensal = 0
@@ -68,7 +66,7 @@ const getCharts = async (req, res) => {
 
         const media = (soma/pedidos).toFixed(2)
 
-        const handle = {total: soma, finalizados: pedidos, ticket: media, users, faturaMensal, pedidosMensal}
+        const handle = {total: soma, finalizados: pedidos, ticket: media, faturaMensal, pedidosMensal}
 
         res.status(200).json(handle)
     } catch (error) {

@@ -13,10 +13,9 @@ const getOrders = async (req, res) => {
 }
 
 const createOrder = async (req, res) => {
-    const {user, cart, comment, entrega, metodo, frete} = req.body
-
+    const {user, cart, comment, entrega, metodo, frete, cartao, dinheiro} = req.body
     try {
-        const fullAddress = `${user.address}, (${user.number}) - ${user.bairro} - ${user.complemento}`
+        const fullAddress = `(${user.cidade} ${user.bairro}) -- ${user.address} - ${user.complemento}`
         const data = moment().format()
         var brazil = timezone.tz(data, "America/Sao_Paulo")
         
@@ -32,7 +31,9 @@ const createOrder = async (req, res) => {
             obs: comment,
             entrega: entrega,
             metodo: metodo,
-            frete: frete
+            frete: frete,
+               cartao,
+               dinheiro
         })
         res.status(200).json(createdOrder)
     } catch (error) {
@@ -93,10 +94,12 @@ const editFrete = async (req, res) => {
 }
 
 const trackOrder = async (req, res) => {
-    const email = req.params
+    const {email} = req.params
+    const rep = email.replace(`"`, "")
+    const repF = rep.replace(`"`, "")
 
     try {
-        const data = await Orders.findOne(email)
+        const data = await Orders.findOne({email: repF})
 
         res.status(200).json(data)
     } catch (error) {

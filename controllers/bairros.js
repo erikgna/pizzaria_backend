@@ -11,7 +11,6 @@ const getBairro = async (req, res) => {
 
 const createBairro = async (req, res) => {
     const data = req.body
-
     try {
         const editedBairro = await Bairros.create(data)
 
