@@ -1,3 +1,6 @@
+const moment = require('moment')
+const timezone = require('moment-timezone')
+
 const Motoboys = require('../models/motoboy.js')
 
 const getMotoboy = async (req, res) => {
@@ -14,9 +17,16 @@ const remakeMotoboy = async (req, res) => {
         const motoboys = await Motoboys.find()
 
         let newMotoboys = {totalTemp: 0, entregasTemp: 0}
+        const data = moment().format()
+        var brazil = timezone.tz(data, "America/Sao_Paulo")
 
-        motoboys.forEach( async ({_id}) => {
-            await Motoboys.findByIdAndUpdate(_id, newMotoboys)
+        motoboys.forEach( async ({_id, rendimentos, totalTemp, entregasTemp}) => {
+            const countTemp = {count: entregasTemp, date: brazil.format()}
+            const moneyTemp = {price: totalTemp, date: brazil.format()}
+            rendimentos.entregas.push(countTemp)
+            rendimentos.dinheiro.push(moneyTemp)
+
+            await Motoboys.findByIdAndUpdate(_id, {newMotoboys, rendimentos})
         })
 
         res.status(200).json(motoboys)
