@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores, getExtra, createExtra, deleteExtra } = require('../controllers/menus.js')
+const { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores, getExtra, createExtra, deleteExtra, editMontar } = require('../controllers/menus.js')
 const { getSubs, createSubs, deleteSubs } = require('../controllers/subs.js')
 const adminAuth = require('../middlewares/adminAuth.js')
 
@@ -36,5 +36,7 @@ router.delete('/sub/:id', adminAuth, deleteSubs)
 router.get('/extra', getExtra)
 router.post('/extra', adminAuth, createExtra)
 router.delete('/extra/:id', adminAuth, deleteExtra)
+
+router.post('/montar/:name/:id', adminAuth, editMontar)
 
 module.exports = router

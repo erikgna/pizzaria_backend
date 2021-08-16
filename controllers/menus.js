@@ -240,5 +240,19 @@ const deleteExtra = async (req, res) => {
     }
 }
 
-module.exports = {getExtra, createExtra, deleteExtra, getMenu,
+const editMontar = async (req, res) => {
+    const {name, id} = req.params
+    const {status} = req.body
+    try {
+        if(name === 'sabor') await Sabores.findByIdAndUpdate(id, {avaliable: status})
+        if(name === 'extra') await Extras.findByIdAndUpdate(id, {avaliable: status})
+        if(name === 'borda') await Bordas.findByIdAndUpdate(id, {avaliable: status})
+        res.status(200).json('Edited sucessfully')
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+
+module.exports = {getExtra, createExtra, deleteExtra, getMenu, editMontar,
      createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores }
