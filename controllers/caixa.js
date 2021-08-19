@@ -50,6 +50,8 @@ const getCharts = async (req, res) => {
     const {month} = req.params
 
     try {
+        const inicio = parseInt(month.split(',')[0])
+        const final = parseInt(month.split(',')[1])
         const caixa = await Caixa.find()
         let soma = 0
         let pedidos = 0
@@ -58,7 +60,7 @@ const getCharts = async (req, res) => {
         caixa.forEach(({total, count, date}) => {
             soma = soma+total
             pedidos = pedidos+count
-            if(date.substring(5, 7) === month) {
+            if(inicio < Date.parse(date) && final > Date.parse(date)) {
                 faturaMensal = faturaMensal+total
                 pedidosMensal = pedidosMensal+count
             }

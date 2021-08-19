@@ -61,8 +61,9 @@ const deleteProduct = async (req, res) => {
         const productExists = await Menus.findById(id)
         if(!productExists) return res.status(404).send("No product with that id")
 
-        const filename = productExists.image.replace("https://pizzariaback.herokuapp.com/images/", "")
-        await fs.unlinkSync(`${__dirname}/../public/images/${filename}`)
+
+        await productExists.image.replace("https://pizzariaback.herokuapp.com/images/", "")
+        //await fs.unlinkSync(`${__dirname}/../public/images/${filename}`)
 
         const productDeleted = await Menus.findByIdAndRemove(id)
 
@@ -83,11 +84,13 @@ const getCategorys = async (req, res) => {
 }
 
 const createCategory = async (req, res) => {
-    const name = req.body
-
+    const data = req.body
+    
     try {
-        const createdCategory = await Categorys.create(name)
-        res.status(200).json(createdCategory)
+        const nameExist = await Categorys.findOne({name: data.name})
+        if(nameExist) return res.status(402).json('Already exists!')
+        await Categorys.create(data)
+        res.status(200).json('createdCategory')
     } catch (error) {
         res.status(400).json(error)
     }
@@ -122,8 +125,10 @@ const createBorda = async (req, res) => {
     const data = req.body
 
     try {
-        const createdBorda = await Bordas.create(data)
-        res.status(200).json(createdBorda)
+        const nameExist = await Bordas.findOne({name: data.name})
+        if(data.id === '' && !nameExist) await Bordas.create(data)
+        else await Bordas.findByIdAndUpdate(data.id, data)
+        res.status(200).json('createdBorda')
     } catch (error) {
         res.status(400).json(error)
     }
@@ -153,10 +158,12 @@ const getTamanho = async (req, res) => {
 
 const createTamanho = async (req, res) => {
     const data = req.body
-
+    console.log(data)
     try {
-        const createdTamanho = await Tamanhos.create(data)
-        res.status(200).json(createdTamanho)
+        const nameExist = await Tamanhos.findOne({name: data.name})
+        if(data.id === '' && !nameExist) await Tamanhos.create(data)
+        else await Tamanhos.findByIdAndUpdate(data.id, data)
+        res.status(200).json('createdTamanho')
     } catch (error) {
         res.status(400).json(error)
     }
@@ -164,7 +171,6 @@ const createTamanho = async (req, res) => {
 
 const deleteTamanho = async (req, res) => {
     const {id} = req.params
-
     try {
         const tamanhoDeleted = await Tamanhos.findByIdAndRemove(id)
 
@@ -186,10 +192,12 @@ const getSabores = async (req, res) => {
 
 const createSabores = async (req, res) => {
     const data = req.body
-    console.log(data)
+
     try {
-        const createdSabores = await Sabores.create(data)
-        res.status(200).json(createdSabores)
+        const nameExist = await Sabores.findOne({name: data.name})
+        if(data.id === '' && !nameExist) await Sabores.create(data)
+        else await Sabores.findByIdAndUpdate(data.id, data)
+        res.status(200).json('createdSabor')
     } catch (error) {
         res.status(400).json(error)
     }
@@ -221,8 +229,10 @@ const createExtra = async (req, res) => {
     const data = req.body
 
     try {
-        const createdExtra = await Extras.create(data)
-        res.status(200).json(createdExtra)
+        const nameExist = await Extras.findOne({name: data.name})
+        if(data.id === '' && !nameExist) await Extras.create(data)
+        else await Extras.findByIdAndUpdate(data.id, data)
+        res.status(200).json('createdExtra')
     } catch (error) {
         res.status(400).json(error)
     }
@@ -247,6 +257,7 @@ const editMontar = async (req, res) => {
         if(name === 'sabor') await Sabores.findByIdAndUpdate(id, {avaliable: status})
         if(name === 'extra') await Extras.findByIdAndUpdate(id, {avaliable: status})
         if(name === 'borda') await Bordas.findByIdAndUpdate(id, {avaliable: status})
+        console.log(data)
         res.status(200).json('Edited sucessfully')
     } catch (error) {
         res.status(400).json(error)
