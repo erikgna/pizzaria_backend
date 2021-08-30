@@ -11,10 +11,10 @@ const getSubs = async (req, res) => {
 }
 
 const createSubs = async (req, res) => {
-    const {name} = req.body
-
+    const {name, value} = req.body
+    
     try {
-        const createdSub = await Subs.create({name: name})
+        const createdSub = await Subs.create({name: name, value: value})
         res.status(200).json(createdSub)
     } catch (error) {
         res.status(400).json(error)

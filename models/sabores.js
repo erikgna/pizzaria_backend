@@ -6,6 +6,7 @@ const saboresSchema = mongoose.Schema({
     ingredientes: String,
     price: {type: Number, default: 0},
     avaliable: {type: Boolean, default: true},
+    categoryPrice: Number,
     special: String
 })
 
