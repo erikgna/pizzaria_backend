@@ -158,10 +158,8 @@ const getTamanho = async (req, res) => {
 
 const createTamanho = async (req, res) => {
     const data = req.body
-    console.log(data)
     try {
-        const nameExist = await Tamanhos.findOne({name: data.name})
-        if(data.id === '' && !nameExist) await Tamanhos.create(data)
+        if(data.id === '') await Tamanhos.create(data)
         else await Tamanhos.findByIdAndUpdate(data.id, data)
         res.status(200).json('createdTamanho')
     } catch (error) {
@@ -192,10 +190,9 @@ const getSabores = async (req, res) => {
 
 const createSabores = async (req, res) => {
     const data = req.body
- 
+    console.log(data)
     try {
-        const nameExist = await Sabores.findOne({name: data.name})
-        if(data.id === '' && !nameExist) await Sabores.create(data)
+        if(data.id === '') await Sabores.create(data)
         else await Sabores.findByIdAndUpdate(data.id, data)
         res.status(200).json('createdSabor')
     } catch (error) {
@@ -229,8 +226,7 @@ const createExtra = async (req, res) => {
     const data = req.body
 
     try {
-        const nameExist = await Extras.findOne({name: data.name})
-        if(data.id === '' && !nameExist) await Extras.create(data)
+        if(data.id === '') await Extras.create(data)
         else await Extras.findByIdAndUpdate(data.id, data)
         res.status(200).json('createdExtra')
     } catch (error) {
@@ -257,7 +253,6 @@ const editMontar = async (req, res) => {
         if(name === 'sabor') await Sabores.findByIdAndUpdate(id, {avaliable: status})
         if(name === 'extra') await Extras.findByIdAndUpdate(id, {avaliable: status})
         if(name === 'borda') await Bordas.findByIdAndUpdate(id, {avaliable: status})
-        console.log(data)
         res.status(200).json('Edited sucessfully')
     } catch (error) {
         res.status(400).json(error)
