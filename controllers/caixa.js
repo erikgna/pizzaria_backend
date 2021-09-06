@@ -34,7 +34,7 @@ const createCaixa = async (req, res) => {
 const editCaixa = async (req, res) => {
     const {id} = req.params
     const data = req.body
-    
+
     try {
         const caixaExists = await Caixa.findById(id)
         if(!caixaExists) return res.status(404).send("No caixa with that id")

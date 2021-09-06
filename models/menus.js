@@ -9,7 +9,8 @@ const menusSchema = mongoose.Schema({
     avaliable: {type: Boolean, require: true},
     type: {type: String, require: true},
     combo: {type: Boolean, require: true},
-    date: Date
+    date: Date,
+    complementos: Array
 })
 
 module.exports = mongoose.model("Menus", menusSchema)

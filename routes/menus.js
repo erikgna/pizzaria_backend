@@ -1,7 +1,7 @@
 const express = require('express')
 
-const { getMenu, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores, getExtra, createExtra, deleteExtra, editMontar } = require('../controllers/menus.js')
-const { getSubs, createSubs, deleteSubs } = require('../controllers/subs.js')
+const { getMenu, deleteProductComple, editProductComple, createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores, getExtra, createExtra, deleteExtra, editMontar } = require('../controllers/menus.js')
+const { getSubs, createSubs, deleteSubs, deleteComplemento, createComplemento, editComplemento } = require('../controllers/subs.js')
 const adminAuth = require('../middlewares/adminAuth.js')
 
 const router = express.Router()
@@ -15,9 +15,11 @@ router.post('/category', adminAuth, createCategory)
 router.get('/borda', getBorda)
 router.post('/borda', adminAuth, createBorda)
 
-router.patch('/update/:id', adminAuth, editProduct)
+router.patch('/update/:id', editProduct)
+router.patch('/update/comple/:id', editProductComple)
 
 router.delete('/delete/:id', adminAuth, deleteProduct)
+router.post('/delete/comple', deleteProductComple)
 router.post('/delete/category', adminAuth, deleteCategory)
 router.delete('/borda/:id', adminAuth, deleteBorda)
 
@@ -38,5 +40,9 @@ router.post('/extra', adminAuth, createExtra)
 router.delete('/extra/:id', adminAuth, deleteExtra)
 
 router.post('/montar/:name/:id', adminAuth, editMontar)
+
+router.post('/montar/complemento', adminAuth, createComplemento)
+router.post('/montar/editComplemento', adminAuth, editComplemento)
+router.delete('/montar/complemento/:name/:id', adminAuth, deleteComplemento)
 
 module.exports = router

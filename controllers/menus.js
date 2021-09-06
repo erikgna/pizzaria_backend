@@ -42,13 +42,50 @@ const createProduct = async (req, res) => {
 const editProduct = async (req, res) => {
     const {id} = req.params
     const data = req.body
-
+    
     try {
         const productExists = await Menus.findById(id)
         if(!productExists) return res.status(404).send("No product with that id")
 
         const updatedProduct = await Menus.findByIdAndUpdate(id, data)
         res.status(200).json(updatedProduct)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const editProductComple = async (req, res) => {
+    const {id} = req.params
+    const data = req.body
+    try {
+        const tempMenu = await Menus.findById(id)
+    
+        const tempComple = tempMenu.complementos
+        tempComple.push(data)
+        const edited = await Menus.findByIdAndUpdate(id, {complementos: tempComple})
+
+        res.status(200).json(edited)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+const deleteProductComple = async (req, res) => {
+    const {id, name} = req.body
+
+    try {
+        const tempMenu = await Menus.findById(id)
+        const tempComple = tempMenu.complementos
+        let tempThing = []
+        tempComple.forEach((item) => {
+            if(item[0].name !== name) {
+                tempThing.push(item)        
+            }
+        })
+
+        const edited = await Menus.findByIdAndUpdate(id, {complementos: tempThing})
+        
+        res.status(200).json(edited)
     } catch (error) {
         res.status(400).json(error)
     }
@@ -260,5 +297,5 @@ const editMontar = async (req, res) => {
 }
 
 
-module.exports = {getExtra, createExtra, deleteExtra, getMenu, editMontar,
+module.exports = {getExtra, createExtra, deleteExtra, getMenu, editMontar, editProductComple, deleteProductComple,
      createProduct, editProduct, deleteProduct, getCategorys, createCategory, deleteCategory, getBorda, createBorda, deleteBorda, getTamanho, createTamanho, deleteTamanho, getSabores, createSabores, deleteSabores }
