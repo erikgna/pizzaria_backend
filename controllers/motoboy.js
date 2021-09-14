@@ -54,6 +54,22 @@ const editMotoboy = async (req, res) => {
     }
 }
 
+const editMotoboyInfo = async (req, res) => {
+    const {id, name, phone, placa} = req.body
+
+    try {
+        if(id === null || id === undefined || id === "") res.status(400).json("Algo deu errado!")
+        if(name === null || name === undefined  || name === "") res.status(400).json("Algo deu errado!")
+        if(placa === null || placa === undefined  || placa === "") res.status(400).json("Algo deu errado!")
+        const editedMotoboy = await Motoboys.findByIdAndUpdate(id, {name, phone, placa})
+
+        res.status(200).json(editedMotoboy)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+
 const createMotoboy = async (req, res) => {
     const data = req.body
     try {
@@ -77,4 +93,4 @@ const deleteMotoboy = async (req, res) => {
     }
 }
 
-module.exports = { getMotoboy, createMotoboy, deleteMotoboy, editMotoboy, remakeMotoboy }
+module.exports = { getMotoboy, createMotoboy, deleteMotoboy, editMotoboy, remakeMotoboy, editMotoboyInfo }
