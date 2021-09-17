@@ -57,6 +57,7 @@ const editProduct = async (req, res) => {
 const editProductComple = async (req, res) => {
     const {id} = req.params
     const data = req.body
+
     try {
         const tempMenu = await Menus.findById(id)
     

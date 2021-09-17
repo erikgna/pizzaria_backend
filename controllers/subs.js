@@ -94,7 +94,7 @@ const editComplemento = async (req, res) => {
 
         let newArray = [obj]
         tempArray.forEach((item) => {
-            if(item.name !== obj.name) {
+            if(item.indentifier !== obj.indentifier) {
                 newArray.push(item)
             }
         })
@@ -103,14 +103,14 @@ const editComplemento = async (req, res) => {
         let tempComplemento = []
         tempProducts.forEach(({_id, complementos}) => {
             complementos.forEach((item) => {
-                if(item[0].name === obj.name) tempComplemento.push({id: _id, obj: complementos})
+                if(item[0].indentifier === obj.indentifier) tempComplemento.push({id: _id, obj: complementos})
             })
         })
 
         tempComplemento.forEach((thing) => {
             let tempIndex = 0
             thing.obj.forEach((item, index) => {
-                if(item[0].name === obj.name) tempIndex = index
+                if(item[0].indentifier === obj.indentifier) tempIndex = index
             })
             thing.obj.splice(tempIndex, 1)
             thing.obj.push([obj])
