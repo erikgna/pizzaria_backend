@@ -85,7 +85,7 @@ const createComplemento = async (req, res) => {
 
 const editComplemento = async (req, res) => {
     const {obj, id} = req.body
-
+    
     try {
         const tempCategory = await Categorys.findById(id)
         const tempProducts = await Menus.find()
@@ -103,14 +103,14 @@ const editComplemento = async (req, res) => {
         let tempComplemento = []
         tempProducts.forEach(({_id, complementos}) => {
             complementos.forEach((item) => {
-                if(item[0].indentifier === obj.indentifier) tempComplemento.push({id: _id, obj: complementos})
+                if(item[0]?.indentifier === obj.indentifier) tempComplemento.push({id: _id, obj: complementos})
             })
         })
 
         tempComplemento.forEach((thing) => {
             let tempIndex = 0
             thing.obj.forEach((item, index) => {
-                if(item[0].indentifier === obj.indentifier) tempIndex = index
+                if(item[0]?.indentifier === obj.indentifier) tempIndex = index
             })
             thing.obj.splice(tempIndex, 1)
             thing.obj.push([obj])

@@ -57,12 +57,14 @@ const editProduct = async (req, res) => {
 const editProductComple = async (req, res) => {
     const {id} = req.params
     const data = req.body
-
+    
     try {
         const tempMenu = await Menus.findById(id)
     
         const tempComple = tempMenu.complementos
-        tempComple.push(data)
+        data.forEach((item) => {
+            tempComple.push([item])
+        })
         const edited = await Menus.findByIdAndUpdate(id, {complementos: tempComple})
 
         res.status(200).json(edited)
@@ -72,18 +74,18 @@ const editProductComple = async (req, res) => {
 }
 
 const deleteProductComple = async (req, res) => {
-    const {id, name} = req.body
-
+    const {id, indentifier} = req.body
+    
     try {
         const tempMenu = await Menus.findById(id)
         const tempComple = tempMenu.complementos
         let tempThing = []
+        
         tempComple.forEach((item) => {
-            if(item[0].name !== name) {
-                tempThing.push(item)        
+            if(item[0]?.indentifier !== indentifier) {
+                tempThing.push(item)  
             }
         })
-
         const edited = await Menus.findByIdAndUpdate(id, {complementos: tempThing})
         
         res.status(200).json(edited)
@@ -228,7 +230,7 @@ const getSabores = async (req, res) => {
 
 const createSabores = async (req, res) => {
     const data = req.body
-    console.log(data)
+
     try {
         if(data.id === '') await Sabores.create(data)
         else await Sabores.findByIdAndUpdate(data.id, data)
@@ -287,6 +289,7 @@ const deleteExtra = async (req, res) => {
 const editMontar = async (req, res) => {
     const {name, id} = req.params
     const {status} = req.body
+
     try {
         if(name === 'sabor') await Sabores.findByIdAndUpdate(id, {avaliable: status})
         if(name === 'extra') await Extras.findByIdAndUpdate(id, {avaliable: status})

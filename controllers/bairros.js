@@ -20,6 +20,17 @@ const createBairro = async (req, res) => {
     }
 }
 
+const editBairro = async (req, res) => {
+    const {id, cidade, bairros, prices} = req.body
+
+    try {
+        const editedBairro = await Bairros.findByIdAndUpdate(id, {cidade, bairros, prices})
+        res.status(200).json(editedBairro)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
 const deleteBairro = async (req, res) => {
     const {id} = req.params
 
@@ -32,4 +43,4 @@ const deleteBairro = async (req, res) => {
     }
 }
 
-module.exports = { getBairro, createBairro, deleteBairro }
+module.exports = { getBairro, createBairro, deleteBairro, editBairro }
